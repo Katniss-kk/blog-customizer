@@ -29,3 +29,5 @@ jobs:
           retention-days: 30
       - name: Install Playwright Browsers
         run: npx playwright install
+      - name: Install Playwright
+        run: npx playwright install

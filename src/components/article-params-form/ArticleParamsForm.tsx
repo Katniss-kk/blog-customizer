@@ -51,7 +51,7 @@ export const ArticleParamsForm = ({
 			<ArrowButton isOpen={isOpen} onClick={toggleForm} />
 			<aside
 				className={`${styles.container} ${
-					isOpen ? styles.container_open : ''
+					isOpen ? styles.container_open : ' '
 				}`}>
 				<form
 					className={styles.form}

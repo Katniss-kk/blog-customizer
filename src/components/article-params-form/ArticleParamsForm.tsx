@@ -1,9 +1,11 @@
 import { ArrowButton } from 'src/ui/arrow-button';
 import { Button } from 'src/ui/button';
-import { useState, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { Separator } from 'src/ui/separator';
 import { Select } from 'src/ui/select';
 import { RadioGroup } from 'src/ui/radio-group';
+import clsx from 'clsx';
+import { useOutsideClickClose } from 'src/ui/select/hooks/useOutsideClickClose';
 
 import {
 	ArticleStateType,
@@ -32,10 +34,14 @@ export const ArticleParamsForm = ({
 	const [isOpen, setIsOpen] = useState(false);
 	const toggleForm = () => setIsOpen(!isOpen);
 	const [draftSettings, setDraftSettings] = useState(currentSettings);
+	const sidebarRef = useRef<HTMLDivElement>(null);
 
-	useEffect(() => {
-		setDraftSettings(currentSettings);
-	}, [currentSettings]);
+	useOutsideClickClose({
+		isOpen,
+		rootRef: sidebarRef,
+		onClose: () => {},
+		onChange: setIsOpen,
+	});
 
 	const Apply = () => {
 		onSettingsChange(draftSettings);
@@ -50,9 +56,8 @@ export const ArticleParamsForm = ({
 		<>
 			<ArrowButton isOpen={isOpen} onClick={toggleForm} />
 			<aside
-				className={`${styles.container} ${
-					isOpen ? styles.container_open : ' '
-				}`}>
+				ref={sidebarRef}
+				className={clsx(styles.container, isOpen && styles.container_open)}>
 				<form
 					className={styles.form}
 					onSubmit={(e) => {
